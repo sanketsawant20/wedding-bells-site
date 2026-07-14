@@ -389,6 +389,7 @@ const EVENT_OPTIONS = ["Haldi", "Sangeet", "Wedding Ceremony"];
 
 function RSVP() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     name: "",
     guests: "1",
@@ -397,9 +398,32 @@ function RSVP() {
     message: "",
   });
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSubmitting(true);
+    
+    const formData = new FormData();
+    formData.append("entry.2139133979", form.name);
+    formData.append("entry.2118687280", form.guests);
+    formData.append("entry.826985812", form.attending);
+    formData.append("entry.348235829", form.events.join(", "));
+    formData.append("entry.1129750837", form.message);
+
+    try {
+      await fetch(
+        "https://docs.google.com/forms/d/e/1FAIpQLScc6tQLF0Wcy5HIz_rFM5mxpOrdEA9qWO8YAedlAamFvsT12Q/formResponse",
+        {
+          method: "POST",
+          mode: "no-cors",
+          body: formData,
+        }
+      );
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setSubmitting(false);
+      setSubmitted(true);
+    }
   };
 
   const toggleEvent = (name: string) =>
@@ -518,10 +542,11 @@ function RSVP() {
                 </Field>
                 <button
                   type="submit"
-                  className="group relative mt-2 inline-flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-gold via-gold-soft to-gold px-8 py-4 font-serif text-lg uppercase tracking-[0.3em] text-maroon-deep shadow-gold transition-transform duration-300 hover:scale-[1.02]"
+                  disabled={submitting}
+                  className="group relative mt-2 inline-flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-gold via-gold-soft to-gold px-8 py-4 font-serif text-lg uppercase tracking-[0.3em] text-maroon-deep shadow-gold transition-transform duration-300 hover:scale-[1.02] disabled:opacity-70 disabled:hover:scale-100"
                 >
                   <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-ivory/60 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-                  <span className="relative">Send RSVP</span>
+                  <span className="relative">{submitting ? "Sending..." : "Send RSVP"}</span>
                 </button>
               </motion.form>
             )}
