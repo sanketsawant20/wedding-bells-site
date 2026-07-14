@@ -18,6 +18,7 @@ import coupleImg from "@/assets/couple.jpg";
 import g1 from "@/assets/gallery-1.jpg";
 import g2 from "@/assets/gallery-2.jpg";
 import g3 from "@/assets/gallery-3.jpg";
+import { ScratchCard } from "@/components/ScratchCard";
 import g4 from "@/assets/gallery-4.jpg";
 import g5 from "@/assets/gallery-5.jpg";
 import g6 from "@/assets/gallery-6.jpg";
@@ -32,7 +33,6 @@ const WEDDING_DATE = new Date("2026-12-15T18:00:00+05:30");
 
 const NAV = [
   { id: "home", label: "Home" },
-  { id: "story", label: "Story" },
   { id: "events", label: "Events" },
   { id: "gallery", label: "Gallery" },
   { id: "rsvp", label: "RSVP" },
@@ -139,11 +139,10 @@ function Nav() {
   }, []);
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${
-        scrolled
-          ? "bg-ivory/85 backdrop-blur-md shadow-[0_1px_0_0] shadow-gold/30"
-          : "bg-transparent"
-      }`}
+      className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${scrolled
+        ? "bg-ivory/85 backdrop-blur-md shadow-[0_1px_0_0] shadow-gold/30"
+        : "bg-transparent"
+        }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <a href="#home" className="flex items-center gap-2">
@@ -217,7 +216,7 @@ function Hero() {
       <Mandala className="absolute -left-24 top-24 h-80 w-80 text-maroon/15 float-slow" />
       <Mandala className="absolute -right-24 bottom-16 h-96 w-96 text-gold/25 float-slow" />
 
-      <div className="relative mx-auto max-w-4xl px-6">
+      <div className="relative mx-auto max-w-4xl px-6 mt-24">
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -232,15 +231,14 @@ function Hero() {
           transition={{ duration: 1.2, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
           className="mt-6 leading-[0.9]"
         >
-          <span className="script block text-7xl sm:text-8xl md:text-[9rem] gold-text drop-shadow-[0_2px_0_rgba(0,0,0,0.05)]">
-            Riya
+          <span className="script block text-7xl sm:text-8xl md:text-[9rem] text-primary drop-shadow-[0_2px_0_rgba(0,0,0,0.05)]">
+            Sanket
           </span>
           <span className="my-2 block font-serif text-2xl sm:text-3xl text-primary/70 italic">
             &amp; we invite you to celebrate &amp;
           </span>
-          <span className="script block text-7xl sm:text-8xl md:text-[9rem] gold-text">
-            Arjun
-          </span>
+          <span className="script block text-7xl sm:text-8xl md:text-[9rem] text-primary">
+            Shweta          </span>
         </motion.h1>
 
         <motion.div
@@ -250,12 +248,16 @@ function Hero() {
           className="mt-10 flex flex-col items-center gap-2"
         >
           <Divider className="w-56 !my-2" />
-          <p className="font-serif text-2xl sm:text-3xl text-primary tracking-wide">
-            15 · December · 2026
-          </p>
-          <p className="text-sm uppercase tracking-[0.3em] text-foreground/70">
-            Udaipur · Rajasthan
-          </p>
+          <ScratchCard className="px-6 py-4 border border-gold/20 shadow-elegant bg-ivory/50">
+            <div className="flex flex-col items-center gap-2">
+              <p className="font-serif text-2xl sm:text-3xl text-primary tracking-wide">
+                15 · December · 2026
+              </p>
+              <p className="text-sm uppercase tracking-[0.3em] text-foreground/70">
+                Lonavala · MH
+              </p>
+            </div>
+          </ScratchCard>
         </motion.div>
 
         <motion.a
@@ -293,7 +295,7 @@ function Countdown() {
           <h3 className="script mt-3 text-center text-5xl sm:text-6xl gold-text">
             we say forever
           </h3>
-          <div className="mt-10 grid grid-cols-4 gap-3 sm:gap-6">
+          <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-6">
             {items.map((it) => (
               <div
                 key={it.label}
@@ -314,60 +316,7 @@ function Countdown() {
   );
 }
 
-function Story() {
-  return (
-    <Section id="story">
-      <div className="mx-auto max-w-6xl px-6">
-        <SectionTitle eyebrow="How it began" title="Our Little Story" />
-        <div className="grid gap-12 md:grid-cols-2 md:items-center">
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.3 }}
-            className="relative"
-          >
-            <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-gold/30 to-blush/50 blur-xl" />
-            <div className="relative overflow-hidden rounded-3xl border border-gold/30 shadow-elegant">
-              <img
-                src={coupleImg}
-                alt="Riya and Arjun"
-                className="h-full w-full object-cover"
-                loading="lazy"
-                width={1200}
-                height={1400}
-              />
-            </div>
-          </motion.div>
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.3 }}
-            className="space-y-5 font-serif text-lg leading-relaxed text-foreground/85"
-          >
-            <p>
-              It started, as many stories do, over a cup of chai on a rainy Bombay afternoon
-              in 2021. A shared table, a stolen glance, and a conversation that outlasted
-              the monsoon downpour outside.
-            </p>
-            <p>
-              Somewhere between weekend road trips to the Sahyadris, endless voice notes,
-              and Riya's absolute refusal to like Arjun's playlists, we knew this was it —
-              the easy kind of love, the kind that feels like coming home.
-            </p>
-            <p>
-              Five years, one very small proposal by the sea, and a lifetime of dreams
-              later — we're saying <em>I do</em> in the city of lakes, surrounded by the
-              people who made us who we are. We can't wait to see you there.
-            </p>
-            <p className="script text-3xl gold-text">— Riya &amp; Arjun</p>
-          </motion.div>
-        </div>
-      </div>
-    </Section>
-  );
-}
+
 
 function Events() {
   return (
@@ -388,19 +337,16 @@ function Events() {
                   initial="hidden"
                   whileInView="show"
                   viewport={{ once: true, amount: 0.3 }}
-                  className={`relative md:grid md:grid-cols-2 md:gap-12 ${
-                    alignRight ? "md:[&>*:first-child]:col-start-2" : ""
-                  }`}
+                  className={`relative md:grid md:grid-cols-2 md:gap-12 ${alignRight ? "md:[&>*:first-child]:col-start-2" : ""
+                    }`}
                 >
                   <div
-                    className={`relative rounded-3xl border border-gold/40 bg-ivory/90 backdrop-blur p-6 sm:p-8 shadow-elegant ${
-                      alignRight ? "md:text-right" : ""
-                    }`}
+                    className={`relative rounded-3xl border border-gold/40 bg-ivory/90 backdrop-blur p-6 sm:p-8 shadow-elegant ${alignRight ? "md:text-right" : ""
+                      }`}
                   >
                     <div
-                      className={`mb-4 inline-flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-gold to-gold-soft text-maroon-deep shadow-gold ${
-                        alignRight ? "md:ml-auto" : ""
-                      }`}
+                      className={`mb-4 inline-flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-gold to-gold-soft text-maroon-deep shadow-gold ${alignRight ? "md:ml-auto" : ""
+                        }`}
                     >
                       <Icon size={24} />
                     </div>
@@ -435,74 +381,6 @@ function Events() {
           </ul>
         </div>
       </div>
-    </Section>
-  );
-}
-
-function Gallery() {
-  const [active, setActive] = useState<number | null>(null);
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setActive(null);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
-  return (
-    <Section id="gallery">
-      <div className="mx-auto max-w-6xl px-6">
-        <SectionTitle eyebrow="Moments" title="Photo Gallery" />
-        <div className="columns-2 gap-4 md:columns-3 [column-fill:_balance]">
-          {GALLERY.map((src, i) => (
-            <motion.button
-              key={src}
-              onClick={() => setActive(i)}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.6, delay: (i % 3) * 0.08 }}
-              className="mb-4 block w-full break-inside-avoid overflow-hidden rounded-2xl border border-gold/30 shadow-elegant transition-transform duration-300 hover:-translate-y-1 hover:shadow-gold"
-            >
-              <img
-                src={src}
-                alt=""
-                loading="lazy"
-                className="w-full transition-transform duration-500 hover:scale-105"
-              />
-            </motion.button>
-          ))}
-        </div>
-      </div>
-      <AnimatePresence>
-        {active !== null && (
-          <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-maroon-deep/85 backdrop-blur p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setActive(null)}
-          >
-            <button
-              className="absolute right-6 top-6 rounded-full border border-gold/50 bg-ivory/10 p-2 text-ivory hover:bg-ivory/20"
-              onClick={() => setActive(null)}
-              aria-label="Close"
-            >
-              <X size={20} />
-            </button>
-            <motion.img
-              key={active}
-              src={GALLERY[active]}
-              alt=""
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="max-h-[85vh] max-w-[92vw] rounded-2xl border border-gold/40 shadow-elegant"
-              onClick={(e) => e.stopPropagation()}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
     </Section>
   );
 }
@@ -618,11 +496,10 @@ function RSVP() {
                           type="button"
                           key={ev}
                           onClick={() => toggleEvent(ev)}
-                          className={`rounded-full border px-4 py-2 text-sm transition-all ${
-                            active
-                              ? "border-primary bg-primary text-primary-foreground shadow-gold"
-                              : "border-gold/50 bg-ivory text-foreground/80 hover:border-primary/60"
-                          }`}
+                          className={`rounded-full border px-4 py-2 text-sm transition-all ${active
+                            ? "border-primary bg-primary text-primary-foreground shadow-gold"
+                            : "border-gold/50 bg-ivory text-foreground/80 hover:border-primary/60"
+                            }`}
                         >
                           {ev}
                         </button>
@@ -777,9 +654,7 @@ function WeddingPage() {
       <Nav />
       <Hero />
       <Countdown />
-      <Story />
       <Events />
-      <Gallery />
       <RSVP />
       <Location />
       <Footer />
