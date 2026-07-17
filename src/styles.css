@@ -6,7 +6,7 @@
 
 @theme inline {
   --font-serif: "Cormorant Garamond", ui-serif, Georgia, serif;
-  --font-script: "Great Vibes", cursive;
+  --font-script: "Alex Brush", cursive;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 
   --radius-sm: calc(var(--radius) - 4px);
@@ -91,11 +91,22 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     background-image:
-      radial-gradient(circle at 10% 0%, color-mix(in oklab, var(--blush) 50%, transparent), transparent 40%),
-      radial-gradient(circle at 90% 100%, color-mix(in oklab, var(--gold-soft) 40%, transparent), transparent 45%);
+      radial-gradient(
+        circle at 10% 0%,
+        color-mix(in oklab, var(--blush) 50%, transparent),
+        transparent 40%
+      ),
+      radial-gradient(
+        circle at 90% 100%,
+        color-mix(in oklab, var(--gold-soft) 40%, transparent),
+        transparent 45%
+      );
     background-attachment: fixed;
   }
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-family: var(--font-serif);
     letter-spacing: 0.01em;
   }
@@ -107,7 +118,12 @@
 }
 
 @utility gold-text {
-  background: linear-gradient(135deg, oklch(0.72 0.15 78), oklch(0.88 0.11 88), oklch(0.65 0.16 55));
+  background: linear-gradient(
+    135deg,
+    oklch(0.72 0.15 78),
+    oklch(0.88 0.11 88),
+    oklch(0.65 0.16 55)
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -119,18 +135,29 @@
   justify-content: center;
   gap: 1rem;
   color: var(--gold);
-  &::before, &::after {
+  &::before,
+  &::after {
     content: "";
     flex: 1;
     height: 1px;
-    background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--gold) 60%, transparent), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, var(--gold) 60%, transparent),
+      transparent
+    );
     max-width: 12rem;
   }
 }
 
 @keyframes float-slow {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-12px) rotate(2deg); }
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(2deg);
+  }
 }
 
 @utility float-slow {

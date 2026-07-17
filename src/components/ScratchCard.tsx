@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from "react";
 
 interface ScratchCardProps {
   children: React.ReactNode;
@@ -6,7 +6,11 @@ interface ScratchCardProps {
   className?: string;
 }
 
-export function ScratchCard({ children, coverText = "Scratch to reveal date!", className = "" }: ScratchCardProps) {
+export function ScratchCard({
+  children,
+  coverText = "Scratch to reveal date!",
+  className = "",
+}: ScratchCardProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isScratched, setIsScratched] = useState(false);
@@ -17,7 +21,7 @@ export function ScratchCard({ children, coverText = "Scratch to reveal date!", c
     const container = containerRef.current;
     if (!canvas || !container) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     // Set actual size in memory (scaled to account for extra pixel density)
@@ -34,30 +38,30 @@ export function ScratchCard({ children, coverText = "Scratch to reveal date!", c
 
     // Fill with gold/maroon gradient cover
     const gradient = ctx.createLinearGradient(0, 0, width, height);
-    gradient.addColorStop(0, '#a87a38'); // gold
-    gradient.addColorStop(1, '#662222'); // maroon
+    gradient.addColorStop(0, "#a87a38"); // gold
+    gradient.addColorStop(1, "#662222"); // maroon
 
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, width, height);
 
     // Add some text instruction on the cover
-    ctx.fillStyle = '#fefefa'; // ivory
+    ctx.fillStyle = "#fefefa"; // ivory
     ctx.font = 'italic 16px "Cormorant Garamond", serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
     ctx.fillText(coverText, width / 2, height / 2);
 
     // Prepare for scratching
-    ctx.lineJoin = 'round';
-    ctx.lineCap = 'round';
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
     ctx.lineWidth = 30; // scratch brush size
-    ctx.globalCompositeOperation = 'destination-out';
+    ctx.globalCompositeOperation = "destination-out";
   }, [coverText]);
 
   const scratch = (x: number, y: number) => {
     const canvas = canvasRef.current;
     if (!canvas || !isDrawing || isScratched) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     ctx.lineTo(x, y);
@@ -71,7 +75,7 @@ export function ScratchCard({ children, coverText = "Scratch to reveal date!", c
     setIsDrawing(true);
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const { x, y } = getMousePos(e);
@@ -87,9 +91,9 @@ export function ScratchCard({ children, coverText = "Scratch to reveal date!", c
     const canvas = canvasRef.current;
     if (!canvas) return { x: 0, y: 0 };
     const rect = canvas.getBoundingClientRect();
-    
+
     let clientX, clientY;
-    if ('touches' in e) {
+    if ("touches" in e) {
       clientX = e.touches[0].clientX;
       clientY = e.touches[0].clientY;
     } else {
@@ -106,7 +110,7 @@ export function ScratchCard({ children, coverText = "Scratch to reveal date!", c
   const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (!isDrawing) return;
     // Prevent scrolling while scratching on mobile
-    if ('touches' in e && e.cancelable) {
+    if ("touches" in e && e.cancelable) {
       e.preventDefault();
     }
     const { x, y } = getMousePos(e);
@@ -116,12 +120,12 @@ export function ScratchCard({ children, coverText = "Scratch to reveal date!", c
   const checkPercentage = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
     let transparentCount = 0;
-    
+
     // Check every 4th byte (alpha channel)
     for (let i = 3; i < pixels.length; i += 4) {
       if (pixels[i] === 0) {
@@ -137,14 +141,12 @@ export function ScratchCard({ children, coverText = "Scratch to reveal date!", c
   };
 
   return (
-    <div 
-      ref={containerRef} 
+    <div
+      ref={containerRef}
       className={`relative inline-block overflow-hidden rounded-xl touch-none ${className}`}
     >
-      <div className="relative z-0 select-none">
-        {children}
-      </div>
-      
+      <div className="relative z-0 select-none">{children}</div>
+
       {!isScratched && (
         <canvas
           ref={canvasRef}

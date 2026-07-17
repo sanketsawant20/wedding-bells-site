@@ -72,9 +72,9 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-const title = "Riya & Arjun · A Wedding in Udaipur";
+const title = "Pranav & Ashwini · A Wedding in Lonavala";
 const description =
-  "Join Riya and Arjun as they celebrate their wedding on 15th December 2026 at the Lake Palace Gardens, Udaipur.";
+  "Join Pranav and Ashwini as they celebrate their wedding on 15th December 2026 at the Lake Palace Gardens, Lonavala.";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
@@ -97,7 +97,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&family=Inter:wght@300;400;500;600&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Alex+Brush&family=Inter:wght@300;400;500;600&display=swap",
       },
     ],
   }),
