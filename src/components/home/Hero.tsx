@@ -27,20 +27,6 @@ const TWINKLES = [
   { top: "85%", left: "12%", dur: "2.6s", delay: "0.2s", size: 13 },
 ];
 
-const containerVariants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.18, delayChildren: 0.3 } },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20, scale: 0.97 },
-  show: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] as const },
-  },
-};
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -52,11 +38,11 @@ export function Hero() {
     <section
       ref={ref}
       id="home"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden text-center"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden text-center pt-16 md:pt-0"
     >
       {/* Parallax background */}
       <motion.div
-        className="absolute inset-0 -z-10 bg-cover md:bg-contain bg-center bg-no-repeat bg-[#fdf6ee] scale-110 md:scale-100"
+        className="absolute inset-0 -z-10 bg-cover md:bg-contain bg-no-repeat bg-[#fdf6ee] [background-position:center_65%] md:bg-center scale-100"
         style={{ backgroundImage: `url(${heroCard})`, y: bgY }}
       />
 
@@ -96,32 +82,6 @@ export function Hero() {
           {p.char}
         </span>
       ))}
-
-      {/* Animated entrance overlay — staggered text/content */}
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="show"
-        className="relative z-10 flex flex-col items-center gap-3 px-4"
-      >
-        {/* Eyebrow line */}
-        <motion.p
-          variants={itemVariants}
-          className="text-[10px] sm:text-xs uppercase tracking-[0.45em] text-primary/70 font-semibold drop-shadow-[0_1px_2px_rgba(255,255,255,0.9)]"
-        >
-          Together forever begins
-        </motion.p>
-
-        {/* Decorative divider */}
-        <motion.div
-          variants={itemVariants}
-          className="flex items-center gap-3 text-gold text-lg"
-        >
-          <span className="h-px w-12 bg-gradient-to-r from-transparent to-gold/60 inline-block" />
-          ✦
-          <span className="h-px w-12 bg-gradient-to-l from-transparent to-gold/60 inline-block" />
-        </motion.div>
-      </motion.div>
 
       {/* Scroll Indicator */}
       <motion.a
