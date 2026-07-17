@@ -10,12 +10,9 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ autoPlay }) => {
 
   useEffect(() => {
     if (autoPlay && audioRef.current) {
-      audioRef.current.play()
-        .catch((error) => console.log("Autoplay was prevented:", error));
+      audioRef.current.play().catch((error) => console.log("Autoplay was prevented:", error));
     }
   }, [autoPlay]);
 
-  return (
-    <audio ref={audioRef} src={weddingSong} loop preload="auto" />
-  );
+  return <audio ref={audioRef} src={weddingSong} loop preload="auto" />;
 };

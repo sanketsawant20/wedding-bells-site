@@ -21,9 +21,7 @@ function WeddingPage() {
   return (
     <>
       <AnimatePresence>
-        {!isOpen && (
-          <EnvelopeIntro key="envelope" onOpen={() => setIsOpen(true)} />
-        )}
+        {!isOpen && <EnvelopeIntro key="envelope" onOpen={() => setIsOpen(true)} />}
       </AnimatePresence>
 
       <MusicPlayer autoPlay={isOpen} />
@@ -40,4 +38,3 @@ function WeddingPage() {
     </>
   );
 }
-

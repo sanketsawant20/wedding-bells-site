@@ -1,9 +1,71 @@
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Heart } from "lucide-react";
 import { Section, SectionTitle } from "./Section";
 import { Mandala } from "@/components/Mandala";
 import { fadeUp } from "@/lib/animations";
+
+// ── Lightweight canvas confetti ──────────────────────────────────────────────
+const COLORS = ["#c9a84c", "#e8d4a0", "#6b1a1a", "#f0c0c0", "#fff8f0"];
+
+function Confetti({ active }: { active: boolean }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const rafRef = useRef<number>(0);
+
+  useEffect(() => {
+    if (!active) return;
+    const canvas = canvasRef.current!;
+    const ctx = canvas.getContext("2d")!;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const pieces = Array.from({ length: 120 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * -canvas.height,
+      r: Math.random() * 6 + 3,
+      d: Math.random() * 3 + 1,
+      color: COLORS[Math.floor(Math.random() * COLORS.length)],
+      tilt: Math.random() * 10 - 5,
+      tiltSpeed: Math.random() * 0.07 + 0.02,
+      angle: 0,
+      opacity: 1,
+    }));
+
+    let frame = 0;
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      frame++;
+      pieces.forEach((p) => {
+        p.angle += p.tiltSpeed;
+        p.tilt = Math.sin(p.angle) * 12;
+        p.y += p.d + 1.5;
+        p.x += Math.sin(frame / 40);
+        p.opacity = Math.max(0, p.opacity - 0.004);
+        ctx.globalAlpha = p.opacity;
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.ellipse(p.x, p.y, p.r, p.r * 0.4, (p.tilt * Math.PI) / 180, 0, 2 * Math.PI);
+        ctx.fill();
+      });
+      if (pieces.some((p) => p.opacity > 0)) {
+        rafRef.current = requestAnimationFrame(draw);
+      } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    };
+    rafRef.current = requestAnimationFrame(draw);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [active]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="pointer-events-none fixed inset-0 z-[100]"
+      style={{ display: active ? "block" : "none" }}
+    />
+  );
+}
+// ─────────────────────────────────────────────────────────────────────────────
 
 const EVENT_OPTIONS = ["Haldi", "Sangeet", "Wedding Ceremony"];
 
@@ -65,10 +127,14 @@ export function RSVP() {
     );
 
   return (
-    <Section id="rsvp" className="bg-gradient-to-b from-transparent via-blush/20 to-transparent !py-20">
+    <Section
+      id="rsvp"
+      className="bg-gradient-to-b from-transparent via-blush/20 to-transparent !py-20"
+    >
+      <Confetti active={submitted} />
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
         <SectionTitle eyebrow="With love, please reply by 1st November" title="RSVP" />
-        
+
         <motion.div
           variants={fadeUp}
           initial="hidden"
@@ -78,7 +144,7 @@ export function RSVP() {
         >
           {/* Decorative Corner Mandala */}
           <Mandala className="absolute -right-16 -bottom-16 h-56 w-56 text-gold/15 pointer-events-none -z-10" />
-          
+
           <AnimatePresence mode="wait">
             {submitted ? (
               <motion.div
@@ -139,7 +205,7 @@ export function RSVP() {
                       className="rsvp-input"
                     />
                   </Field>
-                  
+
                   <Field label="Attending status">
                     <select
                       value={form.attending}
@@ -211,7 +277,7 @@ export function RSVP() {
           </AnimatePresence>
         </motion.div>
       </div>
-      
+
       <style>{`
         .rsvp-input {
           width: 100%;
