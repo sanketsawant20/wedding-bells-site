@@ -18,10 +18,18 @@ export const NAV = [
 
 export const EVENTS = [
   {
-    name: "Haldi",
+    name: "Mehendi",
     icon: Flower2,
+    date: "11th November 2026",
+    time: "4:00 PM",
+    venue: "Cloud 9 Hills Resort, Lonavala",
+    blurb: "Staining hands with love, laughter, and beautiful henna patterns.",
+  },
+  {
+    name: "Haldi",
+    icon: Sparkles,
     date: "12th November 2026",
-    time: "2:00 PM",
+    time: "11:00 AM",
     venue: "Cloud 9 Hills Resort, Lonavala",
     blurb: "A joyful morning of turmeric, laughter, and blessings.",
   },
@@ -35,8 +43,8 @@ export const EVENTS = [
   },
   {
     name: "Wedding Ceremony",
-    icon: Sparkles,
-    date: "12th November 2026",
+    icon: Flower2,
+    date: "13th November 2026",
     time: "02:07 PM",
     venue: "Cloud 9 Hills Resort, Lonavala",
     blurb: "The seven sacred vows, under a canopy of stars.",
@@ -44,3 +52,4 @@ export const EVENTS = [
 ];
 
 export const GALLERY = [g1, g4, g3, g2, g6, g5];
+

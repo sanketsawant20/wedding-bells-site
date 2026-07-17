@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { Divider } from "@/components/Mandala";
 import { EVENTS } from "@/lib/constants";
@@ -9,15 +10,40 @@ import sangeetBg from "@/assets/sangeet-bg.jpg";
 import weddingBg from "@/assets/wedding-bg.jpg";
 
 export function Events() {
+  const [isVIP, setIsVIP] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("vip") === "true") {
+        setIsVIP(true);
+      }
+    }
+  }, []);
+
+  const visibleEvents = EVENTS.filter((ev) => {
+    const nameLower = ev.name.toLowerCase();
+    if (
+      nameLower.includes("haldi") ||
+      nameLower.includes("mehendi") ||
+      nameLower.includes("sangeet")
+    ) {
+      return isVIP;
+    }
+    return true;
+  });
+
   return (
     <div id="events">
-      {EVENTS.map((ev, i) => {
+      {visibleEvents.map((ev, i) => {
         const Icon = ev.icon;
         const sectionId = ev.name.toLowerCase().includes("haldi") 
           ? "haldi" 
-          : ev.name.toLowerCase().includes("sangeet") 
-            ? "sangeet" 
-            : "wedding-ceremony";
+          : ev.name.toLowerCase().includes("mehendi")
+            ? "mehendi"
+            : ev.name.toLowerCase().includes("sangeet") 
+              ? "sangeet" 
+              : "wedding-ceremony";
 
         const hasBg = true;
         const isDarkTheme = sectionId === "sangeet";
@@ -30,7 +56,7 @@ export function Events() {
               sectionId === "wedding-ceremony" ? "pt-4" : "pt-24"
             }`}
             style={{
-              backgroundImage: sectionId === "haldi" 
+              backgroundImage: sectionId === "haldi" || sectionId === "mehendi"
                 ? `url(${haldiBg})` 
                 : sectionId === "sangeet" 
                   ? `url(${sangeetBg})` 
@@ -108,7 +134,11 @@ export function Events() {
                 <p className={`text-[10px] sm:text-xs uppercase tracking-[0.4em] mb-2 font-medium ${
                   isDarkTheme ? "text-gold-soft" : "text-primary/80"
                 }`}>
-                  {i === 0 ? "Pre-Wedding Ritual" : i === 1 ? "Pre-Wedding Celebration" : "The Main Ceremony"}
+                  {ev.name.toLowerCase().includes("wedding") 
+                    ? "The Main Ceremony" 
+                    : ev.name.toLowerCase().includes("sangeet") 
+                      ? "Pre-Wedding Celebration" 
+                      : "Pre-Wedding Ritual"}
                 </p>
 
                 {/* Event Title */}
