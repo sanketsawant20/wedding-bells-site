@@ -6,7 +6,7 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden text-center bg-cover bg-center bg-no-repeat"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden text-center bg-ivory bg-cover lg:bg-contain bg-center bg-no-repeat"
       style={{
         backgroundImage: `url(${heroCard})`
       }}
