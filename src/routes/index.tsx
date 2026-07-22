@@ -10,6 +10,7 @@ import { Events } from "@/components/home/Events";
 import { RSVP } from "@/components/home/RSVP";
 import { Location } from "@/components/home/Location";
 import { Footer } from "@/components/home/Footer";
+import { useIsVIP } from "@/hooks/useIsVIP";
 
 export const Route = createFileRoute("/")({
   component: WeddingPage,
@@ -17,6 +18,7 @@ export const Route = createFileRoute("/")({
 
 function WeddingPage() {
   const [isOpen, setIsOpen] = useState(false);
+  const isVIP = useIsVIP();
 
   return (
     <>
@@ -31,7 +33,7 @@ function WeddingPage() {
         <Hero />
         <Countdown />
         <Events />
-        <RSVP />
+        {isVIP && <RSVP />}
         <Location />
         <Footer />
       </main>

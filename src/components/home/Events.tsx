@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { Divider } from "@/components/Mandala";
 import { EVENTS } from "@/lib/constants";
 import { fadeUp } from "@/lib/animations";
 import { Calendar, Clock, MapPin } from "lucide-react";
+import { useIsVIP } from "@/hooks/useIsVIP";
 
 const staggerContainer = {
   hidden: {},
@@ -19,16 +19,7 @@ import sangeetBg from "@/assets/sangeet-bg.jpg";
 import weddingBg from "@/assets/wedding-bg.jpg";
 
 export function Events() {
-  const [isVIP, setIsVIP] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get("vip") === "true") {
-        setIsVIP(true);
-      }
-    }
-  }, []);
+  const isVIP = useIsVIP();
 
   const visibleEvents = EVENTS.filter((ev) => {
     const nameLower = ev.name.toLowerCase();

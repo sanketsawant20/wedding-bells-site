@@ -3,16 +3,27 @@ import { motion, AnimatePresence } from "motion/react";
 import { X, Menu } from "lucide-react";
 import { NAV } from "@/lib/constants";
 import apLogo from "@/assets/ap-logo.png";
+import { useIsVIP } from "@/hooks/useIsVIP";
 
 export function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const isVIP = useIsVIP();
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const visibleNav = NAV.filter((n) => {
+    if (n.id === "rsvp" || n.id === "haldi" || n.id === "sangeet") {
+      return isVIP;
+    }
+    return true;
+  });
+
   return (
     <motion.header
       initial={{ y: -80, opacity: 0 }}
@@ -29,7 +40,7 @@ export function Nav() {
           <img src={apLogo} alt="A & P" className="h-12 w-auto object-contain" />
         </a>
         <nav className="hidden md:flex items-center gap-8">
-          {NAV.map((n, i) => (
+          {visibleNav.map((n, i) => (
             <motion.a
               key={n.id}
               href={`#${n.id}`}
@@ -82,7 +93,7 @@ export function Nav() {
             className="md:hidden mx-4 mb-4 rounded-2xl border border-gold/30 bg-ivory/95 backdrop-blur p-4 shadow-elegant"
           >
             <ul className="flex flex-col gap-3">
-              {NAV.map((n) => (
+              {visibleNav.map((n) => (
                 <li key={n.id}>
                   <a
                     href={`#${n.id}`}
