@@ -41,11 +41,11 @@ export function Location() {
               <div className="mt-6 space-y-4 text-foreground/85">
                 <div className="flex items-start gap-3">
                   <MapPin className="mt-1 shrink-0 text-primary" size={18} />
-                  <p>{address}</p>
+                  <p className="font-serif tracking-wide text-base leading-relaxed">{address}</p>
                 </div>
                 <div className="flex items-start gap-3">
                   <Sparkles className="mt-1 shrink-0 text-primary" size={18} />
-                  <p>12th November 2026 · 2:07 PM onwards</p>
+                  <p className="font-serif tracking-wide text-base">{`12th November 2026 \u00B7 2:07 PM onwards`}</p>
                 </div>
               </div>
             </div>

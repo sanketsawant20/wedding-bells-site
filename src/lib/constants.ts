@@ -13,7 +13,6 @@ export const NAV = [
   { id: "haldi", label: "Haldi" },
   { id: "sangeet", label: "Sangeet" },
   { id: "wedding-ceremony", label: "Wedding" },
-  { id: "gallery", label: "Gallery" },
   { id: "rsvp", label: "RSVP" },
   { id: "location", label: "Location" },
 ];
@@ -23,9 +22,9 @@ export const EVENTS = [
     name: "Haldi",
     icon: Sparkles,
     date: "11th November 2026",
-    time: "11:00 AM",
+    time: "03:00 PM",
     venue: "Cloud 9 Hills Resort, Lonavala",
-    blurb: "A joyful morning of turmeric, laughter, and blessings.",
+    blurb: "A joyful day of turmeric, laughter, and blessings.",
   },
   {
     name: "Sangeet",
@@ -39,9 +38,9 @@ export const EVENTS = [
     name: "Wedding Ceremony",
     icon: Flower2,
     date: "12th November 2026",
-    time: "02:07 PM",
+    time: "02:00 PM",
     venue: "Cloud 9 Hills Resort, Lonavala",
-    blurb: "The seven sacred vows, under a canopy of stars.",
+    blurb: "A sacred union inspired by compassion, wisdom, and harmony.",
   },
 ];
 

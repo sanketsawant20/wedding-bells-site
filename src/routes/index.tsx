@@ -26,7 +26,7 @@ function WeddingPage() {
 
       <MusicPlayer autoPlay={isOpen} />
 
-      <main className="relative overflow-x-hidden">
+      <main className="relative overflow-x-hidden space-y-12 sm:space-y-16">
         <Nav />
         <Hero />
         <Countdown />

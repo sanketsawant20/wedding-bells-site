@@ -55,7 +55,7 @@ export function Events() {
           <section
             key={ev.name}
             id={sectionId}
-            className={`relative min-h-[90vh] flex flex-col items-center justify-start pb-40 px-4 overflow-hidden bg-cover bg-center bg-no-repeat ${
+            className={`relative min-h-[90vh] flex flex-col items-center justify-start pb-40 px-4 overflow-hidden bg-cover bg-center bg-no-repeat mb-12 sm:mb-16 rounded-3xl ${
               sectionId === "wedding-ceremony" ? "pt-4" : "pt-24"
             }`}
             style={{
@@ -182,15 +182,15 @@ export function Events() {
                 >
                   <motion.div variants={rowVariant} className="flex items-center gap-3">
                     <Calendar size={16} className={isDarkTheme ? "text-gold" : "text-primary"} />
-                    <span>{ev.date}</span>
+                    <span className="font-serif tracking-wide text-sm sm:text-base">{ev.date}</span>
                   </motion.div>
                   <motion.div variants={rowVariant} className="flex items-center gap-3">
                     <Clock size={16} className={isDarkTheme ? "text-gold" : "text-primary"} />
-                    <span>{ev.time}</span>
+                    <span className="font-serif tracking-wide text-sm sm:text-base">{ev.time}</span>
                   </motion.div>
                   <motion.div variants={rowVariant} className="flex items-center gap-3">
                     <MapPin size={16} className={isDarkTheme ? "text-gold" : "text-primary"} />
-                    <span>{ev.venue}</span>
+                    <span className="font-serif tracking-wide text-sm sm:text-base">{ev.venue}</span>
                   </motion.div>
                 </motion.div>
               </motion.div>
