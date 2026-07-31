@@ -4,6 +4,7 @@ import { Heart } from "lucide-react";
 import { Section, SectionTitle } from "./Section";
 import { Mandala } from "@/components/Mandala";
 import { fadeUp } from "@/lib/animations";
+import { useIsVIP } from "@/hooks/useIsVIP";
 
 // ── Lightweight canvas confetti ──────────────────────────────────────────────
 const COLORS = ["#c9a84c", "#e8d4a0", "#6b1a1a", "#f0c0c0", "#fff8f0"];
@@ -81,6 +82,8 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 }
 
 export function RSVP() {
+  const isVIP = useIsVIP();
+  const eventOptions = isVIP ? EVENT_OPTIONS : ["Wedding Ceremony"];
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
@@ -95,11 +98,15 @@ export function RSVP() {
     e.preventDefault();
     setSubmitting(true);
 
+    const submittedEvents = !isVIP
+      ? (form.attending === "yes" ? ["Wedding Ceremony"] : [])
+      : form.events;
+
     const formData = new FormData();
     formData.append("entry.1099816419", form.name);
     formData.append("entry.1954327725", form.guests);
     formData.append("entry.981178490", form.attending);
-    formData.append("entry.2097524413", form.events.join(", "));
+    formData.append("entry.2097524413", submittedEvents.join(", "));
     formData.append("entry.847179712", form.message);
 
     try {
@@ -206,20 +213,29 @@ export function RSVP() {
                     />
                   </Field>
 
-                  <Field label="Attending status">
+                  <Field label={isVIP ? "Attending status" : "Are you coming to the wedding?"}>
                     <select
                       value={form.attending}
                       onChange={(e) => setForm({ ...form, attending: e.target.value })}
                       className="rsvp-input cursor-pointer"
                     >
-                      <option value="yes">Joyfully accepts</option>
-                      <option value="no">Regretfully declines</option>
+                      {isVIP ? (
+                        <>
+                          <option value="yes">Joyfully accepts</option>
+                          <option value="no">Regretfully declines</option>
+                        </>
+                      ) : (
+                        <>
+                          <option value="yes">Yes</option>
+                          <option value="no">No</option>
+                        </>
+                      )}
                     </select>
                   </Field>
                 </div>
 
                 {/* Event Attendance Checkboxes/Chips */}
-                {form.attending === "yes" && (
+                {isVIP && form.attending === "yes" && (
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
@@ -228,7 +244,7 @@ export function RSVP() {
                   >
                     <Field label="Which events will you attend?">
                       <div className="flex flex-wrap gap-2.5 mt-1">
-                        {EVENT_OPTIONS.map((ev) => {
+                        {eventOptions.map((ev) => {
                           const active = form.events.includes(ev);
                           return (
                             <button

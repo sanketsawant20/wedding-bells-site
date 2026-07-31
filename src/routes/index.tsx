@@ -33,7 +33,7 @@ function WeddingPage() {
         <Hero />
         <Countdown />
         <Events />
-        {isVIP && <RSVP />}
+        <RSVP />
         <Location />
         <Footer />
       </main>
