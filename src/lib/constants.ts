@@ -38,7 +38,7 @@ export const EVENTS = [
     name: "Wedding Ceremony",
     icon: Flower2,
     date: "12th November 2026",
-    time: "02:00 PM",
+    time: "01:00 PM",
     venue: "Cloud 9 Hills Resort, Lonavala",
     blurb: "A sacred union inspired by compassion, wisdom, and harmony.",
   },

@@ -45,7 +45,7 @@ export function Location() {
                 </div>
                 <div className="flex items-start gap-3">
                   <Sparkles className="mt-1 shrink-0 text-primary" size={18} />
-                  <p className="font-serif tracking-wide text-base">{`12th November 2026 \u00B7 2:00 PM onwards`}</p>
+                  <p className="font-serif tracking-wide text-base">{`12th November 2026 \u00B7 1:00 PM onwards`}</p>
                 </div>
               </div>
             </div>
