@@ -22,7 +22,7 @@ export const EVENTS = [
     name: "Haldi",
     icon: Sparkles,
     date: "11th November 2026",
-    time: "03:00 PM",
+    time: "01:00 PM",
     venue: "Cloud 9 Hills Resort, Lonavala",
     blurb: "A joyful day of turmeric, laughter, and blessings.",
   },
