@@ -6,7 +6,7 @@ import g4 from "@/assets/gallery-4.jpg";
 import g5 from "@/assets/gallery-5.jpg";
 import g6 from "@/assets/gallery-6.jpg";
 
-export const WEDDING_DATE = new Date("2026-11-12T14:00:00+05:30");
+export const WEDDING_DATE = new Date("2026-11-12T13:00:00+05:30");
 export const RSVP_DEADLINE = new Date("2026-11-01T23:59:59+05:30");
 
 export const NAV = [
@@ -61,8 +61,8 @@ export const EVENTS = [
     icon: Flower2,
     date: "12th November 2026",
     shortDate: "12 Nov",
-    time: "02:00 PM",
-    start: "2026-11-12T14:00:00+05:30",
+    time: "01:00 PM",
+    start: "2026-11-12T13:00:00+05:30",
     durationHours: 4,
     city: "Lonavala",
     venue: "Cloud 9 Hills Resort, Lonavala",

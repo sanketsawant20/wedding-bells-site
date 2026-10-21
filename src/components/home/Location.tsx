@@ -11,7 +11,7 @@ const VENUES = [
     title: "Wedding Ceremony",
     subtitle: "Cloud 9 Hills Resort",
     address: "Cloud 9 Hills Resort, Amby Valley Road, Lonavala, Maharashtra 410401",
-    date: "12th November 2026 · 2:00 PM onwards",
+    date: "12th November 2026 · 1:00 PM onwards",
     mapsUrl: "https://maps.app.goo.gl/GHG1MYjY46So8rDa8?g_st=iw",
     embedQuery: "Cloud 9 Hills Resort, Amby Valley Road, Lonavala, Maharashtra 410401",
   },
