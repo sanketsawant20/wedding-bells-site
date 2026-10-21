@@ -72,15 +72,16 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-const title = "Pranav & Ashwini · A Wedding in Lonavala";
+const title = "Pranav & Ashwini · Wedding · 12 November 2026";
 const description =
-  "Join Pranav and Ashwini as they celebrate their wedding on 15th December 2026 at the Lake Palace Gardens, Lonavala.";
+  "You're invited! Join Pranav and Ashwini for their wedding on 12th November 2026 at Cloud 9 Hills Resort, Lonavala, and the reception on 15th November in Chinchwad, Pune. RSVP by 1st November.";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "theme-color", content: "#5a1a1f" },
       { title },
       { name: "description", content: description },
       { property: "og:title", content: title },
