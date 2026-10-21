@@ -44,7 +44,7 @@ function FlipNumber({ value }: { value: number }) {
 }
 
 export function Countdown() {
-  const { days, hours, minutes, seconds } = useCountdown(WEDDING_DATE);
+  const { days, hours, minutes, seconds, done } = useCountdown(WEDDING_DATE);
   const items = [
     { label: "Days", value: days },
     { label: "Hrs", value: hours },
@@ -68,7 +68,7 @@ export function Countdown() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-center text-[10px] sm:text-xs uppercase tracking-[0.4em] text-gold-soft"
           >
-            Counting the moments until
+            {done ? "Pranav & Ashwini are" : "Counting the moments until"}
           </motion.p>
           <motion.h3
             initial={{ opacity: 0, scale: 0.95 }}
@@ -77,7 +77,7 @@ export function Countdown() {
             transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] as const }}
             className="script mt-2 text-center text-4xl sm:text-6xl gold-shimmer-text breathe"
           >
-            we say forever
+            {done ? "just married" : "we say forever"}
           </motion.h3>
 
           {/* Scratch Card */}
@@ -87,36 +87,42 @@ export function Countdown() {
                 <p className="font-serif text-lg sm:text-3xl text-ivory tracking-wide">
                   12 · November · 2026
                 </p>
-                <p className="text-[10px] sm:text-sm uppercase tracking-[0.3em] text-gold-soft">
-                  Lonavala · MH
+                <p className="text-[10px] sm:text-sm uppercase tracking-[0.3em] text-gold-soft font-semibold">
+                  02:00 PM · Lonavala · MH
                 </p>
               </div>
             </ScratchCard>
           </div>
 
           {/* Countdown Grid with flip numbers */}
-          <motion.div
-            variants={cardStagger}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.3 }}
-            className="mt-5 sm:mt-10 grid grid-cols-4 gap-2 sm:gap-6"
-          >
-            {items.map((it) => (
-              <motion.div
-                key={it.label}
-                variants={cardVariant}
-                className="rounded-xl sm:rounded-2xl border border-gold/30 bg-ivory/[0.06] backdrop-blur px-1 py-4 sm:px-2 sm:py-8 text-center card-glow-hover cursor-default"
-              >
-                <div className="text-2xl sm:text-5xl md:text-6xl">
-                  <FlipNumber value={it.value} />
-                </div>
-                <div className="mt-1 sm:mt-2 text-[9px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] text-gold-soft">
-                  {it.label}
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+          {done ? (
+            <p className="mt-6 sm:mt-10 text-center font-serif text-lg sm:text-2xl italic text-ivory/90">
+              Thank you for your love and blessings — see you at the reception!
+            </p>
+          ) : (
+            <motion.div
+              variants={cardStagger}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.3 }}
+              className="mt-5 sm:mt-10 grid grid-cols-4 gap-2 sm:gap-6"
+            >
+              {items.map((it) => (
+                <motion.div
+                  key={it.label}
+                  variants={cardVariant}
+                  className="rounded-xl sm:rounded-2xl border border-gold/30 bg-ivory/[0.06] backdrop-blur px-1 py-4 sm:px-2 sm:py-8 text-center card-glow-hover cursor-default"
+                >
+                  <div className="text-2xl sm:text-5xl md:text-6xl">
+                    <FlipNumber value={it.value} />
+                  </div>
+                  <div className="mt-1 sm:mt-2 text-[9px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] text-gold-soft">
+                    {it.label}
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
         </div>
       </div>
     </Section>
