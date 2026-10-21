@@ -6,11 +6,11 @@ import { MusicPlayer } from "@/components/home/MusicPlayer";
 import { Nav } from "@/components/home/Nav";
 import { Hero } from "@/components/home/Hero";
 import { Countdown } from "@/components/home/Countdown";
+import { Schedule } from "@/components/home/Schedule";
 import { Events } from "@/components/home/Events";
 import { RSVP } from "@/components/home/RSVP";
 import { Location } from "@/components/home/Location";
 import { Footer } from "@/components/home/Footer";
-import { useIsVIP } from "@/hooks/useIsVIP";
 
 export const Route = createFileRoute("/")({
   component: WeddingPage,
@@ -18,7 +18,6 @@ export const Route = createFileRoute("/")({
 
 function WeddingPage() {
   const [isOpen, setIsOpen] = useState(false);
-  const isVIP = useIsVIP();
 
   return (
     <>
@@ -32,6 +31,7 @@ function WeddingPage() {
         <Nav />
         <Hero />
         <Countdown />
+        <Schedule />
         <Events />
         <RSVP />
         <Location />
