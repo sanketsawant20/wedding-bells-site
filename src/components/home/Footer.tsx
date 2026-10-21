@@ -14,7 +14,7 @@ export function Footer() {
         </p>
         <Divider className="!text-gold" />
         <p className="mt-6 text-xs uppercase tracking-[0.4em] text-gold-soft">
-          Lonavala · Pune · November 2026
+          Made with <span className="text-gold">♥</span> in Lonavala · 2026
         </p>
       </div>
     </footer>

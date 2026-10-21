@@ -1,12 +1,10 @@
 import { useState, type FormEvent, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Heart, Check, Clock } from "lucide-react";
+import { Heart } from "lucide-react";
 import { Section, SectionTitle } from "./Section";
 import { Mandala } from "@/components/Mandala";
 import { fadeUp } from "@/lib/animations";
 import { useIsVIP } from "@/hooks/useIsVIP";
-import { calendarDaysUntil, useNow } from "@/hooks/useCountdown";
-import { RSVP_DEADLINE, visibleEventsFor } from "@/lib/constants";
 
 // ── Lightweight canvas confetti ──────────────────────────────────────────────
 const COLORS = ["#c9a84c", "#e8d4a0", "#6b1a1a", "#f0c0c0", "#fff8f0"];
@@ -70,36 +68,12 @@ function Confetti({ active }: { active: boolean }) {
 }
 // ─────────────────────────────────────────────────────────────────────────────
 
-const toRsvpEvents = (isVIP: boolean) =>
-  visibleEventsFor(isVIP).map((ev) => ({
-    name: ev.name,
-    date: `${ev.shortDate} · ${ev.time}`,
-    venue: ev.city,
-  }));
-
-function DeadlineBadge() {
-  const now = useNow();
-  if (now === null) return null;
-
-  const daysLeft = calendarDaysUntil(RSVP_DEADLINE, now);
-  if (daysLeft < 0) return null;
-
-  return (
-    <div className="-mt-2 mb-8 flex justify-center">
-      <span className="inline-flex items-center gap-2 rounded-full border border-gold/50 bg-ivory/90 px-4 py-1.5 text-[11px] sm:text-xs uppercase tracking-[0.25em] font-bold text-primary shadow-sm">
-        <Clock size={13} className="text-gold" />
-        {daysLeft === 0
-          ? "Last day to reply"
-          : `${daysLeft} ${daysLeft === 1 ? "day" : "days"} left to reply`}
-      </span>
-    </div>
-  );
-}
+const EVENT_OPTIONS = ["Haldi", "Sangeet", "Wedding Ceremony"];
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-1.5 w-full">
-      <span className="text-xs sm:text-sm uppercase tracking-[0.2em] text-primary font-bold pl-1">
+      <span className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-primary/70 font-semibold pl-1">
         {label}
       </span>
       {children}
@@ -109,32 +83,24 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 export function RSVP() {
   const isVIP = useIsVIP();
-  const availableEvents = toRsvpEvents(isVIP);
-  const availableNames = availableEvents.map((e) => e.name);
-
+  const eventOptions = isVIP ? EVENT_OPTIONS : ["Wedding Ceremony"];
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     name: "",
     guests: "1",
     attending: "yes",
-    events: ["Wedding Ceremony", "Wedding Reception"] as string[],
+    events: [] as string[],
     message: "",
   });
-
-  useEffect(() => {
-    setForm((f) => ({
-      ...f,
-      events: toRsvpEvents(isVIP).map((e) => e.name),
-    }));
-  }, [isVIP]);
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
 
-    const submittedEvents =
-      form.attending === "yes" ? (form.events.length > 0 ? form.events : availableNames) : [];
+    const submittedEvents = !isVIP
+      ? (form.attending === "yes" ? ["Wedding Ceremony"] : [])
+      : form.events;
 
     const formData = new FormData();
     formData.append("entry.1099816419", form.name);
@@ -175,14 +141,13 @@ export function RSVP() {
       <Confetti active={submitted} />
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
         <SectionTitle eyebrow="With love, please reply by 1st November" title="RSVP" />
-        <DeadlineBadge />
 
         <motion.div
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
-          className="relative overflow-hidden rounded-3xl border border-gold/30 bg-ivory/80 backdrop-blur-md p-5 sm:p-12 shadow-elegant"
+          className="relative overflow-hidden rounded-3xl border border-gold/30 bg-ivory/60 backdrop-blur-md p-6 sm:p-12 shadow-elegant"
         >
           {/* Decorative Corner Mandala */}
           <Mandala className="absolute -right-16 -bottom-16 h-56 w-56 text-gold/15 pointer-events-none -z-10" />
@@ -200,22 +165,16 @@ export function RSVP() {
                   <Heart size={32} fill="currentColor" />
                 </div>
                 <h3 className="font-serif text-4xl text-primary mb-3">Thank You!</h3>
-                <p className="text-foreground/85 max-w-md mx-auto text-base sm:text-lg">
+                <p className="text-foreground/80 max-w-md mx-auto text-base sm:text-lg">
                   Your response has been noted. We can't wait to celebrate with you,{" "}
                   <span className="font-bold text-primary">{form.name || "friend"}</span>!
                 </p>
                 <button
                   onClick={() => {
                     setSubmitted(false);
-                    setForm({
-                      name: "",
-                      guests: "1",
-                      attending: "yes",
-                      events: availableNames,
-                      message: "",
-                    });
+                    setForm({ name: "", guests: "1", attending: "yes", events: [], message: "" });
                   }}
-                  className="mt-8 text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-primary underline decoration-gold/50 underline-offset-8 hover:decoration-primary transition-all cursor-pointer"
+                  className="mt-8 text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-primary underline decoration-gold/50 underline-offset-8 hover:decoration-primary transition-all"
                 >
                   Submit another response
                 </button>
@@ -254,7 +213,7 @@ export function RSVP() {
                     />
                   </Field>
 
-                  <Field label={isVIP ? "Attending status" : "Will you be attending?"}>
+                  <Field label={isVIP ? "Attending status" : "Are you coming to the wedding?"}>
                     <select
                       value={form.attending}
                       onChange={(e) => setForm({ ...form, attending: e.target.value })}
@@ -267,68 +226,42 @@ export function RSVP() {
                         </>
                       ) : (
                         <>
-                          <option value="yes">Yes, I'll be there!</option>
-                          <option value="no">Regretfully declines</option>
+                          <option value="yes">Yes</option>
+                          <option value="no">No</option>
                         </>
                       )}
                     </select>
                   </Field>
                 </div>
 
-                {/* Event Attendance Checkboxes/Cards */}
-                {form.attending === "yes" && (
+                {/* Event Attendance Checkboxes/Chips */}
+                {isVIP && form.attending === "yes" && (
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <Field label="Which events will you attend? (Tap to select)">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-1.5">
-                        {availableEvents.map((ev) => {
-                          const active = form.events.includes(ev.name);
+                    <Field label="Which events will you attend?">
+                      <div className="flex flex-wrap gap-2.5 mt-1">
+                        {eventOptions.map((ev) => {
+                          const active = form.events.includes(ev);
                           return (
                             <button
                               type="button"
-                              key={ev.name}
-                              onClick={() => toggleEvent(ev.name)}
-                              aria-pressed={active}
-                              className={`flex items-center justify-between gap-3 rounded-2xl p-4 text-left transition-all duration-200 border-2 touch-manipulation cursor-pointer select-none active:scale-[0.98] ${
+                              key={ev}
+                              onClick={() => toggleEvent(ev)}
+                              className={`rounded-full px-5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-all duration-300 border ${
                                 active
-                                  ? "bg-maroon-deep text-ivory border-gold shadow-md"
-                                  : "bg-white/95 text-foreground border-gold/40 hover:border-gold hover:bg-white shadow-sm"
+                                  ? "border-primary bg-primary text-white shadow-md shadow-maroon/20"
+                                  : "border-gold/30 bg-white/40 hover:bg-white/80 hover:border-gold text-foreground/80"
                               }`}
                             >
-                              <div className="flex flex-col min-w-0 pr-2">
-                                <span className="font-serif text-base sm:text-lg font-bold tracking-wide leading-tight">
-                                  {ev.name}
-                                </span>
-                                <span
-                                  className={`text-xs font-semibold tracking-wide mt-1 ${
-                                    active ? "text-gold-soft" : "text-primary/80"
-                                  }`}
-                                >
-                                  {ev.date} · {ev.venue}
-                                </span>
-                              </div>
-                              <div
-                                className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border-2 transition-all ${
-                                  active
-                                    ? "bg-gold border-gold text-maroon-deep shadow-sm"
-                                    : "border-primary/40 bg-white/80"
-                                }`}
-                              >
-                                {active && <Check size={14} strokeWidth={3} />}
-                              </div>
+                              {ev}
                             </button>
                           );
                         })}
                       </div>
-                      {form.events.length === 0 && (
-                        <p className="text-xs text-primary font-medium mt-1.5 pl-1 italic">
-                          Please select at least one event you'll be attending.
-                        </p>
-                      )}
                     </Field>
                   </motion.div>
                 )}
@@ -364,26 +297,25 @@ export function RSVP() {
       <style>{`
         .rsvp-input {
           width: 100%;
-          background: rgba(255, 255, 255, 0.85);
-          border: 1.5px solid rgba(180, 140, 80, 0.35);
+          background: rgba(255, 255, 255, 0.45);
+          border: 1px solid rgba(180, 140, 80, 0.25);
           border-radius: 0.75rem;
           padding: 0.85rem 1.15rem;
           font-family: var(--font-sans);
-          font-size: 1rem;
+          font-size: 0.9rem;
           color: var(--foreground);
-          font-weight: 500;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+          box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
           transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
         .rsvp-input:hover {
-          background: rgba(255, 255, 255, 0.95);
-          border-color: rgba(180, 140, 80, 0.55);
+          background: rgba(255, 255, 255, 0.65);
+          border-color: rgba(180, 140, 80, 0.45);
         }
         .rsvp-input:focus {
           outline: none;
-          background: #ffffff;
+          background: rgba(255, 255, 255, 0.95);
           border-color: var(--maroon);
-          box-shadow: 0 0 0 4px color-mix(in oklab, var(--gold) 30%, transparent), 0 2px 6px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 0 0 4px color-mix(in oklab, var(--gold) 25%, transparent), 0 2px 4px rgba(0, 0, 0, 0.05);
         }
       `}</style>
     </Section>
