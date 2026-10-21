@@ -88,7 +88,7 @@ export function Countdown() {
                   12 · November · 2026
                 </p>
                 <p className="text-[10px] sm:text-sm uppercase tracking-[0.3em] text-gold-soft font-semibold">
-                  02:00 PM · Lonavala · MH
+                  01:00 PM · Lonavala · MH
                 </p>
               </div>
             </ScratchCard>
